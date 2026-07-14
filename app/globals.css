@@ -566,17 +566,16 @@ html[data-cursor-on] .cursor {
 
 .cursor-core {
   position: relative;
-  width: 22px;
-  height: 22px;
-  margin: -11px 0 0 -11px;
-  mix-blend-mode: difference;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
 }
 
 .cursor-core::before,
 .cursor-core::after {
   content: "";
   position: absolute;
-  background: #fff;
+  background: #000;
   border-radius: 2px;
 }
 
@@ -584,16 +583,16 @@ html[data-cursor-on] .cursor {
   top: 50%;
   left: 0;
   right: 0;
-  height: 2px;
-  margin-top: -1px;
+  height: 1.5px;
+  margin-top: -0.75px;
 }
 
 .cursor-core::after {
   left: 50%;
   top: 0;
   bottom: 0;
-  width: 2px;
-  margin-left: -1px;
+  width: 1.5px;
+  margin-left: -0.75px;
 }
 
 /* Tarjetas 3D que siguen el cursor (vars las setea TiltCard.tsx) */

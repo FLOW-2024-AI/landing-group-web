@@ -11,10 +11,10 @@ export default function Footer() {
         <div className="grid gap-14 md:grid-cols-[1.4fr_1fr]">
           <div>
             <Image
-              src={assetPath("/brand/logo-white.svg")}
+              src={assetPath("/brand/logo-white-lg.png")}
               alt="Landing Group"
-              width={180}
-              height={42}
+              width={2118}
+              height={508}
               unoptimized
               className="h-9 w-auto"
             />
@@ -52,11 +52,11 @@ export default function Footer() {
 
         {/* Wordmark oficial gigante para cerrar la página con la marca. */}
         <Image
-          src={assetPath("/brand/logo-white.svg")}
+          src={assetPath("/brand/logo-white-lg.png")}
           alt=""
           aria-hidden
-          width={2880}
-          height={672}
+          width={2118}
+          height={508}
           unoptimized
           className="mx-auto mt-20 w-full max-w-[900px] select-none opacity-[0.14]"
         />

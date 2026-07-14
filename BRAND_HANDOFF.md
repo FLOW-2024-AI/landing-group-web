@@ -59,7 +59,8 @@ manifiesto CSV y README de Codex). Instalados optimizados en `public/brand/`:
 
 | Asset web | Origen (banco) | Uso |
 |---|---|---|
-| `logo-ink.svg` / `logo-white.svg` / `la-mark-*.svg` | identity/ logo vectorial oficial | Nav responsive, favicon, footer y wordmark gigante |
+| `logo-black.png` / `logo-white-lg.png` | wordmark original HD entregado por el cliente | Nav responsive, footer y wordmark gigante |
+| `la-mark-*.svg` | identity/ monograma vectorial | Favicons y aplicaciones compactas |
 | `app/icon.png` + `app/apple-icon.png` | identity/ favicons oficiales | Favicon / iOS |
 | `work-*.webp` (15 piezas) | 01–15 portfolio REAL (catálogo) | Selección destacada + galería completa de trabajos realizados |
 | `tile-la/btl/merch.webp` | 22 / 19 / 16 conceptuales 4K | Tiles flotantes del hero |

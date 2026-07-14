@@ -8,25 +8,16 @@ export default function Nav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between px-5 sm:px-8">
-        {/* Monograma en móvil; wordmark vectorial completo desde sm. */}
+        {/* Wordmark original en alta resolución, conservado en todos los breakpoints. */}
         <Link href="/" aria-label="Landing Group — inicio" className="flex items-center">
           <Image
-            src={assetPath("/brand/la-mark-green.svg")}
-            alt=""
-            width={47}
-            height={32}
-            priority
-            unoptimized
-            className="h-7 w-auto sm:hidden"
-          />
-          <Image
-            src={assetPath("/brand/logo-ink.svg")}
+            src={assetPath("/brand/logo-black.png")}
             alt="Landing Group"
-            width={180}
-            height={42}
+            width={1123}
+            height={275}
             priority
             unoptimized
-            className="hidden h-7 w-auto sm:block"
+            className="h-7 w-auto"
           />
         </Link>
 
