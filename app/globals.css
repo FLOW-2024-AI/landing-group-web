@@ -1,0 +1,755 @@
+@import "tailwindcss";
+@import "../brand/tokens.css";
+
+/* Puente identidad → Tailwind: las utilidades (bg-paper, text-ink,
+   rounded-card, shadow-lift…) leen SIEMPRE de brand/tokens.css. */
+@theme inline {
+  --color-paper: var(--brand-paper);
+  --color-ink: var(--brand-ink);
+  --color-accent: var(--brand-accent);
+  --color-accent-ink: var(--brand-accent-ink);
+  --color-muted: var(--brand-muted);
+  --color-line: var(--brand-line);
+  --color-sand: var(--brand-sand);
+  --color-sage: var(--brand-sage);
+  --color-white: var(--brand-white);
+  --font-display: var(--brand-font-display);
+  --font-body: var(--brand-font-body);
+  --font-script: var(--brand-font-script);
+  --radius-card: var(--brand-radius-card);
+  --radius-button: var(--brand-radius-button);
+  --radius-pill: var(--brand-radius-pill);
+  --shadow-lift: var(--brand-shadow-lift);
+  --shadow-glass: var(--brand-shadow-glass);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--brand-paper);
+  color: var(--brand-ink);
+  font-family: var(--brand-font-body);
+  font-weight: 400;
+  /* las cards que entran desde afuera no deben crear scroll horizontal */
+  overflow-x: clip;
+}
+
+/* Grano de papel (lenguaje gráfico: collage táctil / papel).
+   z-45: por encima del contenido (incluido el pliego z-10), bajo el nav. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Titulares de marca: Barlow Condensed SemiBold en mayúsculas */
+.display {
+  font-family: var(--brand-font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+}
+
+/* ── Sistema de motion: "la mesa de imprenta" ───────────────
+   Tres voces, cero librerías:
+   1. Pliegos que se cubren/descubren  → .pliego-* (hero) y .telon-* (footer)
+      + .plate-* (placas arena sobre las fotos)
+   2. La mano que anota                → .marker-stroke, .script-wipe,
+      .star-pop, hilo del Proceso (--thread-p)
+   3. Mecánica de imprenta             → .odo (odómetro con muelle)
+   Orquestación de carga               → html.js / html.choreo-ready [data-choreo]
+   (PageDirector.tsx escribe --hero-exit y --footer-r con UN rAF global)
+*/
+
+/* Partitura de carga: oculto solo si hay JS; revela con beat propio */
+.js [data-choreo] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+html.choreo-ready [data-choreo] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--beat, 0ms);
+}
+
+/* La firma que se escribe: barrido de tinta izquierda → derecha */
+.js .script-wipe {
+  clip-path: inset(-30% 102% -30% -2%);
+}
+
+html.choreo-ready .script-wipe {
+  clip-path: inset(-30% -2% -30% -2%);
+  transition: clip-path 950ms cubic-bezier(0.5, 0, 0.3, 1);
+  transition-delay: var(--beat, 700ms);
+}
+
+/* Pop de la estrella al terminar la firma */
+.js .star-pop {
+  opacity: 0;
+  transform: scale(0) rotate(-10deg);
+}
+
+html.choreo-ready .star-pop {
+  animation: star-pop 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: var(--beat, 1650ms);
+}
+
+@keyframes star-pop {
+  0% { opacity: 0; transform: scale(0) rotate(-10deg); }
+  60% { opacity: 1; transform: scale(1.15) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* El pliego cede: hero fijado, la página sube por encima (solo desktop) */
+.pliego-cover {
+  position: relative;
+  z-index: 10;
+  background: var(--brand-paper);
+}
+
+.pliego-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-ink);
+  pointer-events: none;
+  opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  .pliego-hero {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .pliego-cover {
+    box-shadow: 0 -18px 44px rgba(20, 27, 28, 0.16);
+  }
+
+  .pliego-cover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--brand-line);
+  }
+
+  .pliego-scale {
+    transform: scale(calc(1 - var(--hero-exit, 0) * 0.04));
+    transform-origin: 50% 25%;
+  }
+
+  .pliego-veil {
+    opacity: calc(var(--hero-exit, 0) * 0.18);
+  }
+}
+
+/* La página y el footer institucional viven en flujo normal: el cierre con
+   marca y redes siempre queda visible inmediatamente después del CTA. */
+.telon-main {
+  position: relative;
+  z-index: 10;
+  background: var(--brand-paper);
+}
+
+.telon-footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Placas de revelado: papel protector arena que despega de cada foto.
+   Los estados "tapado" viven bajo .js: sin JavaScript la foto se ve. */
+.plate-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.plate-cover {
+  display: none;
+}
+
+.js .plate-cover {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--brand-sand);
+  transform: translateY(0);
+}
+
+.js .plate-img {
+  transform: scale(1.08);
+}
+
+.plate-wrap.is-revealed .plate-cover,
+html.choreo-ready .plate-wrap.choreo-plate .plate-cover {
+  transform: translateY(-101%);
+  transition: transform 0.55s cubic-bezier(0.77, 0, 0.18, 1);
+  transition-delay: var(--beat, 0ms);
+}
+
+.plate-wrap.is-revealed .plate-img,
+html.choreo-ready .plate-wrap.choreo-plate .plate-img {
+  transform: scale(1);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--beat, 0ms);
+}
+
+/* Tiles del hero: llegan desde arriba, abajo e izquierda. La entrada,
+   el hover y la flotación viven en capas separadas para no pelear por
+   la misma propiedad transform. */
+.hero-tile-anchor {
+  z-index: var(--tile-z, 1);
+}
+
+.hero-tile-arrival {
+  opacity: 1;
+  transform: none;
+}
+
+.js .hero-tile-arrival {
+  opacity: 0;
+  transform: translate3d(var(--enter-x, 0), var(--enter-y, 0), 0) rotate(var(--enter-rot, 0deg));
+}
+
+html.choreo-ready .hero-tile-arrival {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.55s ease,
+    transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--beat, 0ms);
+}
+
+.hero-tile-hover {
+  transform: translate3d(0, 0, 0) scale(1);
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.35s ease;
+}
+
+@media (hover: hover) {
+  .hero-tile-anchor:hover {
+    z-index: 80;
+  }
+
+  .hero-tile-anchor:hover .hero-tile-hover {
+    filter: saturate(1.08) contrast(1.03);
+    transform: translate3d(var(--hover-x, 0), var(--hover-y, 0), 0) scale(1.09);
+  }
+
+  .hero-tile-anchor:hover .hero-tile-card {
+    box-shadow: 0 28px 70px rgba(20, 27, 28, 0.3);
+  }
+
+  .hero-tile-anchor:hover .hero-tile-note {
+    color: rgba(255, 255, 255, 0.98);
+  }
+}
+
+/* Paso 3 del agendador: aparece al completar día y hora */
+@keyframes sched-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sched-in {
+  animation: sched-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Estrella real del book: pop al entrar en viewport */
+.js .brand-star {
+  opacity: 0;
+  transform: scale(0) rotate(-12deg);
+  transition:
+    opacity 0.3s ease,
+    transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand-star.bs-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Trazos de marcador que se dibujan solos.
+   dashoffset 1.001 (no 1): con linecap round, offset exacto = dasharray
+   deja visible el "puntito" del cap en el arranque del path. */
+.marker-stroke path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1.001;
+}
+
+.marker-stroke.is-drawn path,
+html.choreo-ready .marker-stroke.choreo-draw path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.65s cubic-bezier(0.6, 0, 0.2, 1);
+  transition-delay: var(--beat, 0ms);
+}
+
+/* El hilo del proceso: línea de marcador scrubbed por scroll */
+.thread path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1.001 - var(--thread-p, 0) * 1.001);
+}
+
+.step-title {
+  color: color-mix(in srgb, var(--brand-ink) 40%, var(--brand-paper));
+  transition: color 0.4s ease;
+}
+
+.step-done .step-title {
+  color: var(--brand-ink);
+}
+
+/* Odómetro editorial: tambores mecánicos */
+.odo {
+  display: inline-flex;
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+
+.odo-col {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+}
+
+.odo-strip {
+  display: block;
+}
+
+/* el tambor solo se promueve mientras rueda */
+.odo:not(.odo-done) .odo-strip {
+  will-change: transform;
+}
+
+.odo-strip > span {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+.odo-affix {
+  opacity: 0;
+  transform: translateY(0.25em);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.odo.odo-done .odo-affix {
+  opacity: 1;
+  transform: none;
+}
+
+/* Titulares enmascarados: carácter (hero) y palabra (resto) */
+.char-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  margin-right: 0.26em;
+  padding-block: 0.08em;
+  margin-block: -0.08em;
+}
+
+.char {
+  display: inline-block;
+}
+
+.js .char {
+  transform: translateY(118%) rotate(6deg);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.chars-in .char {
+  transform: none;
+}
+
+.split-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  margin-right: 0.26em;
+  padding-block: 0.08em;
+  margin-block: -0.08em;
+}
+
+.split-word {
+  display: inline-block;
+}
+
+.js .split-word {
+  transform: translateY(130%) rotate(3deg);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.is-visible .split-word {
+  transform: none;
+}
+
+/* Statement scrubbed: las palabras se "pintan" con el scroll */
+.scrub-word {
+  display: inline-block;
+  margin-right: 0.26em;
+  color: var(--brand-line);
+  transform: translateY(0.14em);
+  transition:
+    color 0.4s ease,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrub-word.filled {
+  color: var(--brand-ink);
+  transform: none;
+}
+
+.scrub-word.is-accent.filled {
+  color: var(--brand-accent);
+}
+
+/* Aparición al hacer scroll — estados ocultos SIEMPRE bajo .js:
+   sin JavaScript (o si el bundle muere) la página entera es visible. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.js .reveal.reveal-left {
+  transform: translateX(-76px) rotate(-2.5deg);
+}
+
+.js .reveal.reveal-right {
+  transform: translateX(76px) rotate(2.5deg);
+}
+
+.reveal.reveal-left.is-visible,
+.reveal.reveal-right.is-visible {
+  transform: none;
+}
+
+.js .reveal-scale {
+  opacity: 0;
+  transform: scale(0.93) translateY(24px);
+  filter: blur(10px);
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1s ease;
+}
+
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.js .reveal-clip {
+  clip-path: inset(16% 9% 16% 9% round 28px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-clip.is-visible {
+  clip-path: inset(0 0 0 0 round var(--brand-radius-card));
+}
+
+/* Red de seguridad: si React nunca hidrata (bundle caído), a los 3.5s
+   todo lo oculto se fuerza visible. En cargas sanas choreo-ready llega
+   antes (<1s) y estas animations nunca disparan. */
+@keyframes forced-reveal {
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0 round var(--brand-radius-card));
+    filter: none;
+  }
+}
+
+@keyframes forced-plate {
+  to { transform: translateY(-101%); }
+}
+
+html.js:not(.choreo-ready) .reveal,
+html.js:not(.choreo-ready) .reveal-scale,
+html.js:not(.choreo-ready) .reveal-clip,
+html.js:not(.choreo-ready) .char,
+html.js:not(.choreo-ready) .split-word,
+html.js:not(.choreo-ready) [data-choreo],
+html.js:not(.choreo-ready) .script-wipe,
+html.js:not(.choreo-ready) .star-pop,
+html.js:not(.choreo-ready) .brand-star,
+html.js:not(.choreo-ready) .hero-tile-arrival,
+html.js:not(.choreo-ready) .plate-img {
+  animation: forced-reveal 1ms linear 3.5s forwards;
+}
+
+html.js:not(.choreo-ready) .plate-cover {
+  animation: forced-plate 0.6s ease 3.5s forwards;
+}
+
+/* Bandas marquee: CSS anima por defecto; el JS toma el control para
+   reaccionar a la velocidad del scroll (skew + aceleración). */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee var(--marquee-speed, 26s) linear infinite;
+}
+
+.animate-marquee-rev {
+  animation: marquee var(--marquee-speed, 32s) linear infinite reverse;
+}
+
+/* Flotación suave de las piezas del hero */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+  50% { transform: translateY(-12px) rotate(var(--tilt, 0deg)); }
+}
+
+.animate-float {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+/* Cruz abstracta CONSTANTE (cursor) */
+@media (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor a,
+  html.has-cursor button {
+    cursor: none;
+  }
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+html[data-cursor-on] .cursor {
+  opacity: 1;
+}
+
+.cursor-core {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  mix-blend-mode: difference;
+}
+
+.cursor-core::before,
+.cursor-core::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.cursor-core::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  margin-top: -1px;
+}
+
+.cursor-core::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+}
+
+/* Tarjetas 3D que siguen el cursor (vars las setea TiltCard.tsx) */
+[data-tilt] {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+/* promoción de capa solo mientras hay interacción real */
+@media (hover: hover) {
+  [data-tilt]:hover,
+  .magnetic:hover {
+    will-change: transform;
+  }
+}
+
+.glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    260px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.5),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+[data-tilt]:hover .glare {
+  opacity: 1;
+}
+
+/* Botones magnéticos */
+.magnetic {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Roll de texto */
+.roll {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.roll > span {
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.roll > span:last-child {
+  position: absolute;
+  inset: 0;
+  transform: translateY(110%);
+}
+
+.group:hover .roll > span:first-child {
+  transform: translateY(-110%);
+}
+
+.group:hover .roll > span:last-child {
+  transform: translateY(0);
+}
+
+/* Fill wipe */
+.btn-fill {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-fill::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: var(--fill, var(--brand-ink));
+  border-radius: inherit;
+  transform: translateY(103%);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-fill:hover::after {
+  transform: translateY(0);
+}
+
+.btn-fill > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .animate-marquee,
+  .animate-marquee-rev,
+  .animate-float { animation: none; }
+
+  .js [data-choreo],
+  .js .script-wipe {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+
+  .js .star-pop {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .js .plate-cover { display: none; }
+  .js .plate-img { transform: none; }
+
+  .marker-stroke path,
+  .thread path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .step-title { color: var(--brand-ink); }
+
+  .pliego-hero {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+  .pliego-scale { transform: none; }
+  .pliego-veil { display: none; }
+
+  .js .char,
+  .js .split-word,
+  .js .brand-star,
+  .js .hero-tile-arrival,
+  .hero-tile-hover,
+  .sched-in,
+  .scrub-word,
+  .js .reveal,
+  .js .reveal-scale,
+  .js .reveal-clip,
+  [data-tilt],
+  .magnetic,
+  .roll > span,
+  .btn-fill::after {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    clip-path: none;
+    animation: none;
+    will-change: auto;
+  }
+
+  .scrub-word { color: var(--brand-ink); }
+  .scrub-word.is-accent { color: var(--brand-accent); }
+}

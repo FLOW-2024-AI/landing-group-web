@@ -1,0 +1,40 @@
+/*
+  CAPA DE IDENTIDAD — LANDING GROUP
+  Fuente: Brand Book 2026 (Codex), pág. 17 (color), pág. 18 (tipografía).
+
+  Paleta oficial:
+    Landing Green #074532 · Deep Ink #141B1C · Paper #DFE1E0
+    Warm Sand #D9CBA8 · Muted Sage #2A6557 · White #FFFFFF
+  Regla del logo: negro sobre claro / blanco sobre oscuro, sin recolorear.
+*/
+:root {
+  /* ── Color base ────────────────────────────────────────── */
+  --brand-paper: #dfe1e0;      /* PAPER — lienzo de página */
+  --brand-ink: #141b1c;        /* DEEP INK — texto principal */
+  --brand-accent: #074532;     /* LANDING GREEN — voz de la marca */
+  --brand-accent-ink: #ffffff; /* texto encima del verde */
+  --brand-muted: #6f7a76;      /* neutro derivado para placeholders */
+  --brand-line: rgba(20, 27, 28, 0.18); /* filetes finos (marcos del book) */
+
+  /* ── Secundarios oficiales ─────────────────────────────── */
+  --brand-sand: #d9cba8;       /* WARM SAND */
+  --brand-sage: #2a6557;       /* MUTED SAGE */
+  --brand-white: #ffffff;      /* WHITE — tarjetas */
+
+  /* ── Tipografía (se cargan en app/layout.tsx) ──────────── */
+  --brand-font-display: var(--font-display-face); /* Barlow Condensed SemiBold */
+  --brand-font-body: var(--font-body-face);       /* Inter Regular */
+  --brand-font-script: var(--font-script-face);   /* acento manual */
+
+  /* ── Forma ─────────────────────────────────────────────── */
+  /* Decisión de Hugo (13-jul-2026): sistema más redondeado que el book
+     (que proponía esquinas casi rectas) — tarjetas y botones suaves. */
+  --brand-radius-card: 24px;
+  --brand-radius-button: 14px;
+  --brand-radius-pill: 9999px;
+
+  /* ── Elevación ─────────────────────────────────────────── */
+  --brand-shadow-lift: rgba(20, 27, 28, 0.08) 0px -4px 16px 0px;
+  --brand-shadow-glass: rgba(7, 69, 50, 0.14) 0px 10px 28px 0px,
+    rgba(20, 27, 28, 0.08) 0px 2px 8px 0px;
+}
