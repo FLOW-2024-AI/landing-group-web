@@ -1,0 +1,216 @@
+# Esquema de Pages CMS (https://pagescms.org)
+# Permite a Landing Group editar el contenido del sitio con formularios
+# amigables, sin tocar código: cada guardado hace commit a main y
+# GitHub Pages republica el sitio automáticamente (~2 min).
+
+media:
+  input: public/brand
+  output: /brand
+
+content:
+  - name: site
+    label: Contenido del sitio
+    path: content/site.json
+    type: file
+    fields:
+      - name: brand
+        label: Marca
+        type: object
+        fields:
+          - { name: name, label: Nombre, type: string }
+          - { name: group, label: Sufijo (GROUP), type: string }
+          - { name: legal, label: Razón social (pie de página), type: string }
+          - { name: tagline, label: Tagline, type: string }
+
+      - name: nav
+        label: Menú superior
+        type: object
+        fields:
+          - name: links
+            label: Enlaces del menú
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Texto, type: string }
+              - { name: href, label: Destino (no cambiar sin apoyo técnico), type: string }
+          - name: cta
+            label: Botón principal
+            type: object
+            fields:
+              - { name: label, label: Texto, type: string }
+              - { name: href, label: Destino, type: string }
+
+      - name: hero
+        label: Portada
+        type: object
+        fields:
+          - { name: title, label: Titular grande, type: string }
+          - name: accents
+            label: Palabras del titular en verde
+            type: string
+            list: true
+            description: Deben escribirse exactamente como aparecen en el titular.
+          - { name: script, label: Frase manuscrita, type: string }
+          - { name: sub, label: Descripción, type: text }
+          - name: ctaPrimary
+            label: Botón principal
+            type: object
+            fields:
+              - { name: label, label: Texto, type: string }
+              - { name: href, label: Destino, type: string }
+          - name: ctaSecondary
+            label: Enlace secundario
+            type: object
+            fields:
+              - { name: label, label: Texto, type: string }
+              - { name: href, label: Destino, type: string }
+          - name: tiles
+            label: Tarjetas flotantes (3)
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Etiqueta grande, type: string }
+              - { name: note, label: Nota pequeña, type: string }
+
+      - name: marquee
+        label: Cinta en movimiento (palabras)
+        type: string
+        list: true
+
+      - name: works
+        label: Trabajos realizados
+        type: object
+        fields:
+          - { name: label, label: Etiqueta de sección, type: string }
+          - { name: title, label: Título, type: string }
+          - { name: intro, label: Introducción, type: text }
+          - name: items
+            label: Piezas del catálogo
+            type: object
+            list: true
+            fields:
+              - { name: src, label: Foto, type: image }
+              - { name: brand, label: Marca cliente, type: string }
+              - { name: piece, label: Pieza, type: string }
+              - { name: desc, label: Descripción (aparece al pasar el mouse), type: text }
+
+      - name: services
+        label: Servicios
+        type: object
+        fields:
+          - { name: label, label: Etiqueta de sección, type: string }
+          - { name: title, label: Título, type: string }
+          - name: items
+            label: Servicios (6)
+            type: object
+            list: true
+            fields:
+              - { name: n, label: "Número (01–06)", type: string }
+              - { name: slug, label: URL del servicio (no cambiar sin apoyo técnico), type: string }
+              - { name: name, label: Nombre, type: string }
+              - { name: body, label: Resumen (tarjeta), type: text }
+              - { name: photo, label: Foto de cabecera, type: image }
+              - name: detail
+                label: Página de detalle
+                type: object
+                fields:
+                  - { name: claim, label: Frase principal, type: string }
+                  - { name: intro, label: Introducción, type: text }
+                  - name: bullets
+                    label: Qué incluye (viñetas)
+                    type: text
+                    list: true
+                  - name: gallery
+                    label: Piezas reales (2 fotos)
+                    type: object
+                    list: true
+                    fields:
+                      - { name: src, label: Foto, type: image }
+                      - { name: alt, label: Pie de foto, type: string }
+
+      - name: stats
+        label: Nuestra operación
+        type: object
+        fields:
+          - { name: label, label: Etiqueta de sección, type: string }
+          - { name: title, label: Título, type: string }
+          - name: items
+            label: Bloques (4)
+            type: object
+            list: true
+            fields:
+              - { name: value, label: Dato grande, type: string }
+              - { name: label, label: Explicación, type: string }
+
+      - name: statement
+        label: Frase editorial
+        type: object
+        fields:
+          - { name: small, label: Etiqueta pequeña, type: string }
+          - { name: big, label: Frase grande, type: string }
+          - name: accents
+            label: Palabras en verde
+            type: string
+            list: true
+
+      - name: process
+        label: Proceso
+        type: object
+        fields:
+          - { name: label, label: Etiqueta de sección, type: string }
+          - { name: title, label: Título, type: string }
+          - name: steps
+            label: Pasos (4)
+            type: object
+            list: true
+            fields:
+              - { name: n, label: "Número (01–04)", type: string }
+              - { name: title, label: Título del paso, type: string }
+              - { name: body, label: Descripción, type: text }
+
+      - name: cta
+        label: Bloque final de contacto
+        type: object
+        fields:
+          - { name: title, label: Título, type: string }
+          - { name: body, label: Texto, type: text }
+          - name: button
+            label: Botón
+            type: object
+            fields:
+              - { name: label, label: Texto, type: string }
+              - { name: href, label: Destino, type: string }
+
+      - name: agenda
+        label: Página de agenda
+        type: object
+        fields:
+          - { name: label, label: Etiqueta, type: string }
+          - { name: title, label: Título, type: string }
+          - { name: script, label: Frase manuscrita, type: string }
+          - { name: intro, label: Introducción, type: text }
+          - name: slots
+            label: Horarios disponibles
+            type: string
+            list: true
+          - { name: email, label: Correo que recibe las reuniones, type: string }
+          - { name: disclaimer, label: Nota bajo el botón, type: text }
+
+      - name: footer
+        label: Pie de página
+        type: object
+        fields:
+          - name: columns
+            label: Columnas de enlaces
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Título de columna, type: string }
+              - name: links
+                label: Enlaces
+                type: object
+                list: true
+                fields:
+                  - { name: label, label: Texto, type: string }
+                  - { name: href, label: Destino, type: string }
+          - { name: note, label: Nota final, type: string }
