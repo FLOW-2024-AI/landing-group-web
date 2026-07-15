@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 
 /* Titular del hero: cada carácter emerge de su máscara en cascada cuando
    la tipografía está lista (cap de 800ms para nunca bloquear), y al
    scrollear el bloque se va con parallax. La cascada vive en estado React
    (sobrevive a Fast Refresh); el parallax se auto-repara con el scroll. */
 export default function HeroHeadline() {
+  const content = useContent();
   const ref = useRef<HTMLSpanElement>(null);
   const [charsIn, setCharsIn] = useState(false);
 

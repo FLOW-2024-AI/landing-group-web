@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { assetPath } from "@/brand/paths";
 import Reveal from "./Reveal";
 import PlateReveal from "./PlateReveal";
@@ -21,6 +23,7 @@ const GRID = [
 ] as const;
 
 export default function Testimonials() {
+  const content = useContent();
   const works = content.works.items.slice(5);
 
   return (

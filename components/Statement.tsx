@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import Reveal from "./Reveal";
 import MarkerStroke from "./MarkerStroke";
 
@@ -9,6 +9,7 @@ import MarkerStroke from "./MarkerStroke";
    (bidireccional); cuando la palabra clave termina de pintarse de verde,
    una mano invisible la subraya con marcador (one-shot). */
 export default function Statement() {
+  const content = useContent();
   const ref = useRef<HTMLParagraphElement>(null);
   const [underlined, setUnderlined] = useState(false);
 

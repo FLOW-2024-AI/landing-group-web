@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { assetPath } from "@/brand/paths";
 import Reveal from "./Reveal";
 import Magnetic from "./Magnetic";
@@ -11,6 +13,7 @@ import MarkerStroke from "./MarkerStroke";
 /* Cierre en Deep Ink con subrayado sand — espejo de la última página
    del brand book. El fondo es el asset 25 del banco bajo velo de tinta. */
 export default function CtaFinal() {
+  const content = useContent();
   return (
     <section id="contacto" className="mx-auto w-full max-w-[1200px] px-5 pb-28 pt-8 sm:px-8">
       <Reveal className="reveal-scale">

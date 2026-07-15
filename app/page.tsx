@@ -9,10 +9,13 @@ import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
 import CtaFinal from "@/components/CtaFinal";
 import Footer from "@/components/Footer";
+import ContentProvider from "@/components/ContentProvider";
+import { getSiteTina } from "@/brand/tina";
 
-export default function Home() {
+export default async function Home() {
+  const tina = await getSiteTina();
   return (
-    <>
+    <ContentProvider tina={tina}>
       <Nav />
       {/* El footer institucional permanece siempre como módulo final. */}
       <main className="telon-main">
@@ -30,6 +33,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-    </>
+    </ContentProvider>
   );
 }

@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import Reveal from "./Reveal";
 import TiltCard from "./TiltCard";
 
@@ -17,6 +19,7 @@ const SURFACE = [
 ] as const;
 
 export default function Services() {
+  const content = useContent();
   const { label, title, items } = content.services;
   return (
     <section id="servicios" className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8">

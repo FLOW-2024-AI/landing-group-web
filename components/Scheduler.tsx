@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import BrandStar from "./BrandStar";
 import Magnetic from "./Magnetic";
 import RollText from "./RollText";
@@ -23,6 +23,7 @@ function nextBusinessDays(count: number): Date[] {
 }
 
 export default function Scheduler() {
+  const content = useContent();
   const days = useMemo(() => nextBusinessDays(10), []);
   const [day, setDay] = useState<Date | null>(null);
   const [slot, setSlot] = useState<string | null>(null);

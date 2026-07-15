@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { assetPath } from "@/brand/paths";
 import Reveal from "./Reveal";
 
 export default function Stats() {
+  const content = useContent();
   const { label, title, items } = content.stats;
   return (
     <section id="resultados" className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8">

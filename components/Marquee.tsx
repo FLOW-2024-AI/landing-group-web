@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 
 /* Dos bandas cruzadas que reaccionan al scroll: aceleran con la
    velocidad y se inclinan (skew) en la dirección del movimiento.
@@ -9,6 +9,7 @@ import { content } from "@/brand/content";
 const ROTATION = [-1.6, 1.3];
 
 function Band({ reverse = false, className = "" }: { reverse?: boolean; className?: string }) {
+  const content = useContent();
   const items = [...content.marquee, ...content.marquee, ...content.marquee, ...content.marquee];
   return (
     <div data-band={reverse ? "rev" : "fwd"} className={`w-[110%] -ml-[5%] overflow-hidden py-3.5 ${className}`}>
@@ -29,6 +30,7 @@ function Band({ reverse = false, className = "" }: { reverse?: boolean; classNam
 }
 
 export default function Marquee() {
+  const content = useContent();
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

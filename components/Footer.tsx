@@ -1,10 +1,13 @@
+"use client";
+
 import Image from "next/image";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { assetPath, plainHref } from "@/brand/paths";
 
 /* Módulo institucional final: siempre aparece inmediatamente después del
    CTA con la marca, accesos, redes y datos legales. */
 export default function Footer() {
+  const content = useContent();
   return (
     <footer id="site-footer" className="telon-footer bg-accent pb-10 pt-24 text-paper">
       <div className="mx-auto w-full max-w-[1200px] px-5 sm:px-8">

@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { plainHref } from "@/brand/paths";
 import HeroHeadline from "./HeroHeadline";
 import Magnetic from "./Magnetic";
@@ -11,6 +13,7 @@ import BrandStar from "./BrandStar";
 /* Hero fijado ("el pliego cede"). Composición compacta: firma pegada al
    titular, descripción y CTAs cerca, tiles grandes a la derecha. */
 export default function Hero() {
+  const content = useContent();
   return (
     <section id="hero" className="pliego-hero">
       <div className="pliego-scale flex h-full flex-col justify-center">
