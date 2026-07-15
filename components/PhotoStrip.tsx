@@ -1,11 +1,14 @@
+"use client";
+
 import Image from "next/image";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import PlateReveal from "./PlateReveal";
 
 /* Trabajos reales del catálogo: tarjetas blancas con el producto grande
    (recorte al objeto). Al hover: zoom del producto + panel con la pieza
    y la calidad con la que se produjo. */
 export default function PhotoStrip() {
+  const content = useContent();
   return (
     <section className="mx-auto w-full max-w-[1200px] px-5 pb-24 pt-4 sm:px-8">
       <p className="mb-6 text-[12px] uppercase tracking-[0.2em] text-accent [font-weight:600]">

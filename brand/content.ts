@@ -13,8 +13,9 @@
 import site from "../content/site.json";
 import { assetPath } from "./paths";
 
-/* Recorre el JSON y envuelve con assetPath cualquier string de imagen */
-function withAssetPaths<T>(value: T): T {
+/* Recorre el JSON y envuelve con assetPath cualquier string de imagen.
+   Lo usa también ContentProvider para los valores en vivo de TinaCMS. */
+export function withAssetPaths<T>(value: T): T {
   if (typeof value === "string") {
     return (value.startsWith("/brand/") ? assetPath(value) : value) as T;
   }

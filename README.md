@@ -24,7 +24,27 @@ npm run build
 Cada actualización de `main` se compila y publica automáticamente mediante
 GitHub Pages.
 
-## Editar el contenido sin tocar código (CMS)
+## Edición visual con TinaCMS (recomendada)
+
+El sitio integra [TinaCMS](https://tina.io): el editor abre **la web real** con
+un panel lateral — escribe y **ve el cambio en vivo** antes de guardar; al
+guardar se hace commit y el sitio se republica solo.
+
+- **Local (ya funciona):** `npm run dev` → sitio en `http://localhost:3010`,
+  editor en `http://localhost:3010/admin/index.html` (modo local: guarda al
+  filesystem).
+- **Producción (activar una vez):**
+  1. Crear proyecto gratuito en [app.tina.io](https://app.tina.io) → *Connect
+     to GitHub* → elegir `landing-group-web` (branch `main`).
+  2. Copiar el **Client ID** y un **Read-only token** del proyecto.
+  3. En GitHub: Settings → Secrets and variables → Actions → agregar
+     `NEXT_PUBLIC_TINA_CLIENT_ID` y `TINA_TOKEN`.
+  4. Re-ejecutar el workflow de Pages. El editor queda vivo en
+     `https://flow-2024-ai.github.io/landing-group-web/admin/index.html`.
+  5. En app.tina.io → Project → Users, invitar al correo del cliente (tier
+     gratuito: 2 usuarios). Entra con ese login, sin cuenta de GitHub.
+
+## Editar el contenido con formularios (alternativa: Pages CMS)
 
 Todo el contenido editable del sitio (textos, servicios, trabajos, fotos,
 horarios de agenda, pie de página) vive en **`content/site.json`**, y el

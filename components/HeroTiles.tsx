@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { assetPath } from "@/brand/paths";
 
 /* Piezas flotantes del hero con fotografía real: cada una entra desde un
@@ -57,6 +57,7 @@ const LOOK = [
 ] as const;
 
 export default function HeroTiles() {
+  const content = useContent();
   const wrap = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

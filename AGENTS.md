@@ -7,9 +7,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 # Convenciones del proyecto
 
 - **Contenido**: la fuente de verdad es `content/site.json` (lo edita el
-  cliente vía Pages CMS con el esquema `.pages.yml`). `brand/content.ts` solo
-  lo carga y aplica `assetPath`. NO hardcodear copy en componentes; NO
-  romper la estructura del JSON sin actualizar `.pages.yml`.
+  cliente vía TinaCMS — esquema en `tina/config.ts` — o Pages CMS con
+  `.pages.yml`). Los componentes leen SIEMPRE vía `useContent()` de
+  `components/ContentProvider` (edición visual en vivo); NO importar
+  `content` directo en componentes (solo en metadata/generateStaticParams).
+  Si cambia la estructura del JSON: actualizar `tina/config.ts` Y `.pages.yml`,
+  y regenerar `tina/__generated__` (`npm run dev` lo hace).
 - **Identidad**: tokens en `brand/tokens.css`; reglas y decisiones de marca en
   `BRAND_HANDOFF.md` (leerlo antes de tocar diseño). Elementos de identidad
   (logo, estrella) se extraen del brandbook real, nunca se redibujan.

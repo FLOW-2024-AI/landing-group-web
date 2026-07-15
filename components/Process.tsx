@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import Reveal from "./Reveal";
 import MarkerStroke from "./MarkerStroke";
 
@@ -12,6 +12,7 @@ import MarkerStroke from "./MarkerStroke";
 const THRESHOLDS = [0.15, 0.38, 0.61, 0.84];
 
 export default function Process() {
+  const content = useContent();
   const { label, title, steps } = content.process;
   const section = useRef<HTMLElement>(null);
   const [reached, setReached] = useState(0);

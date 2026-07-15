@@ -1,10 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { content } from "@/brand/content";
+import { useContent } from "@/components/ContentProvider";
 import { assetPath, plainHref } from "@/brand/paths";
 import RollText from "./RollText";
 
 export default function Nav() {
+  const content = useContent();
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between px-5 sm:px-8">
