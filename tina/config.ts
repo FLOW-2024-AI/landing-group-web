@@ -49,6 +49,9 @@ export default defineConfig({
         match: { include: "site" },
         ui: {
           allowedActions: { create: false, delete: false },
+          /* Al abrir el documento, saltar directo a la edición visual
+             sobre la portada del sitio (respetando el basePath de Pages). */
+          router: () => (basePath ? `/${basePath}/` : "/"),
         },
         fields: [
           {
