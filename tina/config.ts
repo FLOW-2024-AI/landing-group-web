@@ -34,7 +34,9 @@ export default defineConfig({
 
   media: {
     tina: {
-      mediaRoot: "brand",
+      // Raíz en "public" (mediaRoot vacío) para que los paths de imagen
+      // sean "/brand/xxx.webp" exactamente como los referencia el sitio.
+      mediaRoot: "",
       publicFolder: "public",
     },
   },
