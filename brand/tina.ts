@@ -8,8 +8,13 @@ import type { TinaSiteProps } from "@/components/ContentProvider";
 export async function getSiteTina(): Promise<TinaSiteProps> {
   try {
     const res = await client.queries.site({ relativePath: "site.json" });
+    console.log("[getSiteTina] OK — conectado a Tina Cloud");
     return { query: res.query, variables: res.variables, data: res.data };
-  } catch {
+  } catch (e) {
+    console.error(
+      "[getSiteTina] fallo:",
+      e instanceof Error ? e.message : JSON.stringify(e),
+    );
     return null;
   }
 }
