@@ -6,6 +6,15 @@ import type { TinaSiteProps } from "@/components/ContentProvider";
    Cloud, o entorno sin el dev server local), devuelve null y el sitio
    se sirve con el contenido estático de content/site.json — idéntico. */
 export async function getSiteTina(): Promise<TinaSiteProps> {
+  console.log(
+    "[tina-diag] clientId len:",
+    (process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "").length,
+    "| token len:",
+    (process.env.TINA_TOKEN || "").length,
+    "| token trim-diff:",
+    (process.env.TINA_TOKEN || "").length -
+      (process.env.TINA_TOKEN || "").trim().length,
+  );
   try {
     const res = await client.queries.site({ relativePath: "site.json" });
     console.log("[getSiteTina] OK — conectado a Tina Cloud");
