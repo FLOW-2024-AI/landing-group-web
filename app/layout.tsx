@@ -49,20 +49,14 @@ export const metadata: Metadata = {
     siteName: "LANDING GROUP",
     locale: "es_PE",
     type: "website",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1729,
-        height: 910,
-        alt: "LANDING GROUP — De la idea a la experiencia.",
-      },
-    ],
+    // La imagen se toma por convención de app/opengraph-image.jpg (1200×632,
+    // ~120 KB): Next añade dimensiones y un hash de cache-busting solo.
   },
   twitter: {
     card: "summary_large_image",
     title: "LANDING GROUP — De la idea a la experiencia.",
     description: content.hero.sub,
-    images: ["/twitter-image.png"],
+    // Idem: app/twitter-image.jpg vía convención.
   },
 };
 
