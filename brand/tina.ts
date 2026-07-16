@@ -6,15 +6,27 @@ import type { TinaSiteProps } from "@/components/ContentProvider";
    Cloud, o entorno sin el dev server local), devuelve null y el sitio
    se sirve con el contenido estático de content/site.json — idéntico. */
 export async function getSiteTina(): Promise<TinaSiteProps> {
-  console.log(
-    "[tina-diag] clientId len:",
-    (process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "").length,
-    "| token len:",
-    (process.env.TINA_TOKEN || "").length,
-    "| token trim-diff:",
-    (process.env.TINA_TOKEN || "").length -
-      (process.env.TINA_TOKEN || "").trim().length,
-  );
+  // DIAGNÓSTICO (temporal): consulta cruda a la API de contenido de Tina
+  // para leer el error exacto. El token viaja en el header desde el env;
+  // nunca se registra su valor, solo la respuesta del servidor.
+  try {
+    const cid = process.env.NEXT_PUBLIC_TINA_CLIENT_ID;
+    const tok = process.env.TINA_TOKEN;
+    if (cid && tok) {
+      const url = `https://content.tinajs.io/2.4/content/${cid}/github/main`;
+      const r = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-API-KEY": tok },
+        body: JSON.stringify({ query: '{ site(relativePath: "site.json") { __typename } }' }),
+      });
+      const body = await r.text();
+      console.log("[tina-raw] status:", r.status, "| body:", body.slice(0, 500));
+    } else {
+      console.log("[tina-raw] faltan credenciales en el build");
+    }
+  } catch (e) {
+    console.log("[tina-raw] error de fetch:", e instanceof Error ? e.message : String(e));
+  }
   try {
     const res = await client.queries.site({ relativePath: "site.json" });
     console.log("[getSiteTina] OK — conectado a Tina Cloud");
