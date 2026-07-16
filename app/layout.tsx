@@ -5,6 +5,8 @@ import Cursor from "@/components/Cursor";
 import PageDirector from "@/components/PageDirector";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://grupolanding.com";
+
 /* Tipografía oficial LANDING GROUP (brand book pág. 18):
    Barlow Condensed SemiBold para titulares, Inter para texto,
    y una manuscrita para el "acento manual". */
@@ -26,9 +28,12 @@ const script = Caveat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://grupolanding.pe"),
+  metadataBase: new URL(siteUrl),
   title: `${content.brand.name} ${content.brand.group} — ${content.brand.tagline}`,
   description: content.hero.sub,
+  alternates: {
+    canonical: "/",
+  },
   keywords: [
     "merchandising corporativo",
     "merch Perú",
@@ -40,14 +45,24 @@ export const metadata: Metadata = {
   openGraph: {
     title: "LANDING GROUP — De la idea a la experiencia.",
     description: content.hero.sub,
+    url: "/",
     siteName: "LANDING GROUP",
     locale: "es_PE",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1729,
+        height: 910,
+        alt: "LANDING GROUP — De la idea a la experiencia.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "LANDING GROUP — De la idea a la experiencia.",
     description: content.hero.sub,
+    images: ["/twitter-image.png"],
   },
 };
 
