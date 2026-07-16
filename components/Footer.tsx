@@ -70,6 +70,21 @@ export default function Footer() {
           </span>
           <span>{content.footer.note}</span>
         </div>
+
+        {/* Firma del creador: enlaza al sitio de Flow (el producto). */}
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://flow-cfo.com"
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-paper/40 transition-colors hover:text-paper/80"
+          >
+            <span>Powered by</span>
+            <span className="[font-weight:700] tracking-[0.16em] text-paper/70 transition-colors group-hover:text-sand">
+              FLOW
+            </span>
+          </a>
+        </div>
       </div>
     </footer>
   );
