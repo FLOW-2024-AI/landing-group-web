@@ -301,3 +301,5 @@ export default defineConfig({
     ],
   },
 });
+
+// Tina Cloud indexa la rama main vía webhook del push (setup inicial).
